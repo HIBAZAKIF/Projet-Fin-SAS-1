@@ -213,7 +213,7 @@ function afficherTrajets (){
 function acheterTickets (){
 
     let nom_passager = prompt('entrer le nom du passager : ');
-    let id_trajet = prompt('entrer l\'identifiant du trajet : ');
+    let id_trajet = Number(prompt('entrer l\'identifiant du trajet : '));
     let trajet_exist = trips.find( (n)=> n.id == id_trajet );
 
     if (trajet_exist == undefined ){     
@@ -264,20 +264,39 @@ function afficherTickets(){
 }
 
 function annulerTickets (){
-    let id = prompt("identifiant du ticket : ");
-    let ticket_exist = tickets.find((ticket)=>ticket.id == id);
-    if ( ticket_exist == undefined ){
+    let id = Number(prompt("identifiant du ticket : "));
+    let ticket_exist = null;
+    let index_ticket = null;
+    for(let i = 0 ; i < longueur(tickets) ; i++){
+        if( tickets[i].id == id){
+            ticket_exist = tickets[i] ;
+            index_ticket = i;
+            break;
+    }
+        }
+    if ( ticket_exist == null ){
         console.log("Ticket introuvable.")
     }else{
-            let trajet = trips.find((trip)=>trip.id == ticket_exist.tripId);
-            tickets.splice(id , 1);
-            trajet.availableSeats -= 1 ; 
+            
+            let trajet = null ;
+            let index_trajet = null ;
+            for(let i = 0 ; i < longueur (trips) ; i++){
+                if( trips[i].id == ticket_exist.tripId){
+                    trajet = trips[i];
+                    index_trajet = i ;
+                    break;
+                }
+            }
+            tickets.splice(index_ticket , 1);
+            trips[index_trajet].availableSeats +=  1 ;
             console.log(`Identifiant du ticket : ${id} `);
-            console.log(`Ticket annulé avec succès. `);            
+            console.log(`Ticket annulé avec succès. `);       
     }
 }
 
-function rechercherTickets (){}
+function rechercherTickets (){
+    
+}
 
 let choix = null ;
 do{
