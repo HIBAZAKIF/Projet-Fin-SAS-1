@@ -1,5 +1,6 @@
 const prompt = require('prompt-sync')();
 
+
 const trips = [
     {
         id: 1,
@@ -183,7 +184,10 @@ const trips = [
     }
 ];
 const tickets = []; 
+
+
 let id_ticket = 0 ;
+
 
 function longueur (tab){
     let notFin = true;
@@ -225,7 +229,7 @@ function acheterTickets (){
                 id : ++id_ticket ,
                 passengerName : nom_passager ,
                 tripId : id_trajet ,
-                seatNumber : trajet_exist.availableSeats - (trajet_exist.availableSeats - 1 ) ,
+                seatNumber : 50 - (trajet_exist.availableSeats - 1 ) ,
                 price : trajet_exist.price
             }
             trajet_exist.availableSeats-- ;
@@ -319,6 +323,64 @@ function rechercherTickets (){
 
 
 }
+function filterTrajets (){
+    let filtre = prompt("entrer la ville de depart : ");
+    const tab = [];
+    for(let i = 0 ; i < longueur(trips) ; i++){
+        if (trips[i].departure == filtre ){
+            tab.push(trips[i]) ;
+        }
+    }
+    if (tab[0] == undefined){
+        console.log("trajet non trouvé");
+    }else{
+        console.log('Résultats :')
+        for(let i = 0 ; i < longueur(tab) ; i++){
+            console.log(`
+                #${i + 1} ${tab[i].departure} -> ${tab[i].destination}
+                départ : ${tab[i].departureTime}
+                arrivée : ${tab[i].arrivalTime}
+                prix : ${tab[i].price} DH
+                Places disponibles : ${tab[i].availableSeats} 
+                `);
+        }
+    }
+}
+
+function trierTrajets (){
+    const trajet_trier = [];
+    let secours = null;
+    for(let i = 0 ; i < longueur(trips) ; i++){
+        trajet_trier.push(trips[i]);
+    }
+
+    for(let j = 0 ; j < longueur(trajet_trier) ; j++){
+        let swap = false ;
+        for(let i = 0 ; i < longueur(trajet_trier)-1 ; i++){
+
+            if (trajet_trier[i].price > trajet_trier[ i + 1 ].price){
+                secours = trajet_trier[i];
+                trajet_trier[i] = trajet_trier[i+1];
+                trajet_trier[i+1] = secours;
+
+                swap = true ;
+            }
+        }
+        if (swap == false){
+            break ;
+        }
+
+    }
+
+    console.log("les trajet trier par prix croissant");
+    for(let i = 0 ; i < longueur(trajet_trier) ; i++ ){
+        console.log(`${trajet_trier[i].departure} -> ${trajet_trier[i].destination} : ${trajet_trier[i].price} DH`)
+    }
+
+}
+
+
+
 
 let choix = null ;
 do{
@@ -357,7 +419,9 @@ do{
             filterTrajets();
             break;
         case 7 : 
-            TrierTrajets();
+            trierTrajets();
+        case 8 : 
+            statistique();
             break;
         // case 0 : 
         //     return;
