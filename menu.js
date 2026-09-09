@@ -295,7 +295,29 @@ function annulerTickets (){
 }
 
 function rechercherTickets (){
-    
+    let nom = prompt("entrer le nom du passager : ");
+    let ticket_de_nom = [] ;
+    for(let i = 0 ; i < longueur(tickets) ; i++){
+        if(tickets[i].passengerName == nom){
+            ticket_de_nom.push(tickets[i]);
+        }   
+    }
+    if(longueur(ticket_de_nom) == undefined){
+        console.log("aucun ticket pour ce passager");
+    }else{
+        for(let i = 0 ; i < longueur(ticket_de_nom) ; i++){
+            let trip_nom = trips.find((n)=>n.id == ticket_de_nom[i].tripId);
+            console.log(`
+                Ticket #${ticket_de_nom[i].id }
+                Passager : ${ticket_de_nom[i].passengerName}
+                Trajet : ${trip_nom.departure} -> ${trip_nom.destination} 
+                Place : ${ticket_de_nom[i].seatNumber}
+                rix : ${ticket_de_nom[i].price}
+            `)
+        }
+    }
+
+
 }
 
 let choix = null ;
