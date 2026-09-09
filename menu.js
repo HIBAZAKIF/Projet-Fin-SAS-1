@@ -379,7 +379,43 @@ function trierTrajets (){
 
 }
 
+function statistiques(){
 
+    //total des ticker
+    let total_ticket = longueur(tickets);
+    console.log(`Nombre total de tickets : ${total_ticket}`);
+    
+    //chiffre daffaires total
+    let chiffre_affaires = 0;
+    for(let i = 0 ; i < longueur(trips); i++){
+        chiffre_affaires += trips[i].price*trips[i].availableSeats ;
+    }
+    console.log(`chiffre d'affaires total : ${chiffre_affaires} DH`);
+
+    //trajet le plus vendus
+    let max_ticket = 0 ;
+    let index = null ;
+    for (let i = 0 ; i < longueur(trips) ; i++) {
+        const tab = [];
+        for (let j = 0 ; j < longueur(tickets) ; j++){
+             if(tickets[j].tripId == trips[i].id){
+                 tab.push(tickets[j]);
+             }
+        }
+
+        if (longueur(tab) > max_ticket ){
+            max_ticket = longueur(tab);
+            index = i ;
+        }
+    }
+
+    console.log(`
+            Trajet le plus vendu :
+             ${trips[index].departure} -> ${trips[index].destination}
+             ${max_ticket} tickets vendus
+             `)
+
+}
 
 
 let choix = null ;
@@ -394,6 +430,7 @@ do{
         5. Rechercher un ticket 
         6. Filtrer les trajets 
         7. Trier les trajets 
+        8. Statistiques
         0. Quitter `
     );
     choix = Number(prompt("Votre choix : "));
@@ -421,7 +458,7 @@ do{
         case 7 : 
             trierTrajets();
         case 8 : 
-            statistique();
+            statistiques();
             break;
         // case 0 : 
         //     return;
