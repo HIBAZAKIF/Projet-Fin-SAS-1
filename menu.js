@@ -9,7 +9,8 @@ const trips = [
         departureTime: "07:30",
         arrivalTime: "08:30",
         price: 25,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 2,
@@ -18,7 +19,8 @@ const trips = [
         departureTime: "08:00",
         arrivalTime: "10:30",
         price: 90,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 3,
@@ -27,7 +29,8 @@ const trips = [
         departureTime: "09:00",
         arrivalTime: "13:00",
         price: 140,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 4,
@@ -36,7 +39,8 @@ const trips = [
         departureTime: "09:15",
         arrivalTime: "11:00",
         price: 65,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 5,
@@ -45,7 +49,8 @@ const trips = [
         departureTime: "10:00",
         arrivalTime: "13:30",
         price: 110,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 6,
@@ -54,7 +59,8 @@ const trips = [
         departureTime: "11:30",
         arrivalTime: "14:30",
         price: 120,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 7,
@@ -63,7 +69,8 @@ const trips = [
         departureTime: "12:00",
         arrivalTime: "16:00",
         price: 150,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 8,
@@ -72,7 +79,8 @@ const trips = [
         departureTime: "14:00",
         arrivalTime: "15:15",
         price: 40,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 9,
@@ -81,7 +89,8 @@ const trips = [
         departureTime: "15:00",
         arrivalTime: "16:45",
         price: 55,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 10,
@@ -90,7 +99,8 @@ const trips = [
         departureTime: "16:00",
         arrivalTime: "16:45",
         price: 30,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 11,
@@ -99,7 +109,8 @@ const trips = [
         departureTime: "17:00",
         arrivalTime: "19:30",
         price: 95,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 12,
@@ -108,7 +119,8 @@ const trips = [
         departureTime: "17:30",
         arrivalTime: "20:00",
         price: 85,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 13,
@@ -117,7 +129,8 @@ const trips = [
         departureTime: "08:30",
         arrivalTime: "09:20",
         price: 35,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 14,
@@ -126,7 +139,8 @@ const trips = [
         departureTime: "10:00",
         arrivalTime: "13:30",
         price: 130,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 15,
@@ -135,7 +149,8 @@ const trips = [
         departureTime: "11:00",
         arrivalTime: "13:30",
         price: 80,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 16,
@@ -144,7 +159,8 @@ const trips = [
         departureTime: "12:00",
         arrivalTime: "15:00",
         price: 105,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 17,
@@ -153,7 +169,8 @@ const trips = [
         departureTime: "16:30",
         arrivalTime: "18:00",
         price: 50,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 18,
@@ -162,7 +179,8 @@ const trips = [
         departureTime: "18:30",
         arrivalTime: "20:30",
         price: 60,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 19,
@@ -171,7 +189,8 @@ const trips = [
         departureTime: "15:00",
         arrivalTime: "18:30",
         price: 100,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     },
     {
         id: 20,
@@ -180,7 +199,8 @@ const trips = [
         departureTime: "19:00",
         arrivalTime: "22:00",
         price: 95,
-        availableSeats: 50
+        availableSeats: 50,
+        place_annulée : []
     }
 ];
 const tickets = []; 
@@ -219,20 +239,28 @@ function acheterTickets (){
     let nom_passager = prompt('entrer le nom du passager : ');
     let id_trajet = Number(prompt('entrer l\'identifiant du trajet : '));
     let trajet_exist = trips.find( (n)=> n.id == id_trajet );
+    let index_trajet_exist = trips.findIndex( (n)=> n.id == id_trajet );
 
     if (trajet_exist == undefined ){     
         console.log("trajet introuvable!");
     }else{
 
-        if (trajet_exist.availableSeats > 0){
+        if ( trajet_exist.availableSeats > 0 ){
+            let numero_place = null ;
+            if (trajet_exist.place_annulée.length == 0){
+                numero_place = 50 - (trajet_exist.availableSeats - 1 )
+            }else{
+                numero_place = trajet_exist.place_annulée[0];
+                trips[index_trajet_exist].place_annulée.splice(0,1);
+            }
             const ticket = {
                 id : ++id_ticket ,
                 passengerName : nom_passager ,
                 tripId : id_trajet ,
-                seatNumber : 50 - (trajet_exist.availableSeats - 1 ) ,
+                seatNumber : numero_place ,
                 price : trajet_exist.price
-            }
-            trajet_exist.availableSeats-- ;
+            };
+            trips[index_trajet_exist].availableSeats-- ;
             tickets.push(ticket);
             console.log("Ticket acheté avec succès.");
             console.log(`# Ticket : ${ticket.id }
@@ -241,7 +269,7 @@ function acheterTickets (){
                 Place : ${ticket.seatNumber}
                 Prix : ${ticket.price} `)
         }else{
-            console.log("train complet!");
+            console.log("Ticket introuvable!");
         }
 
     }
@@ -251,7 +279,7 @@ function afficherTickets(){
     if(length == 0){
         console.log("Aucun ticket enregistré.");
     }else{
-        for ( let i = 0 ; i < longueur(tickets) ; i++ ){
+        for ( let i = 0 ; i < length ; i++ ){
             const trajet = trips.find((trip)=>trip.id == tickets[i].tripId);
             console.log(`============== TICKETS ==============
                 Tickets # ${tickets[i].id} 
@@ -271,13 +299,16 @@ function annulerTickets (){
     let id = Number(prompt("identifiant du ticket : "));
     let ticket_exist = null;
     let index_ticket = null;
+
+    // find le ticket
+    // moumkin nste3mlou find m3a findIndex au lieu de for
     for(let i = 0 ; i < longueur(tickets) ; i++){
         if( tickets[i].id == id){
             ticket_exist = tickets[i] ;
             index_ticket = i;
             break;
-    }
         }
+    }
     if ( ticket_exist == null ){
         console.log("Ticket introuvable.")
     }else{
@@ -291,6 +322,7 @@ function annulerTickets (){
                     break;
                 }
             }
+            trips[index_trajet].place_annulée.push(tickets[index_ticket].seatNumber);
             tickets.splice(index_ticket , 1);
             trips[index_trajet].availableSeats +=  1 ;
             console.log(`Identifiant du ticket : ${id} `);
